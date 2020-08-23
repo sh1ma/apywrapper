@@ -1,5 +1,5 @@
 from src.path import Path
-from src.request import pick_params
+from src.request import pick_params, make_request
 
 
 def test_pick_params():
