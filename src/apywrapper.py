@@ -1,9 +1,12 @@
 from .abc import ApiMeta
-from .path import Path
 from .request import HttpClient, make_request
 
 
 class Api(ApiMeta):
+    """
+    Api
+    """
+
     def __init__(self, host: str, headers) -> None:
         self.http_client = HttpClient(base_url=host, headers=headers)
 

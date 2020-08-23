@@ -25,6 +25,10 @@ def pick_params(path, params: typing.Dict):
 
 
 class HttpClient(httpx.Client):
+    """
+    HttpClient
+    """
+
     def get_request(self, path: Path, params: typing.Dict):
         params = pick_params(path, params)
         res = self.get(path, params=params)

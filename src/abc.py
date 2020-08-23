@@ -2,6 +2,10 @@ from abc import ABCMeta
 
 
 class ApiMeta(metaclass=ABCMeta):
+    """
+    ApiMeta
+    """
+
     def get(self, path: str):
         raise NotImplementedError
 

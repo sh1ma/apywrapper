@@ -6,6 +6,10 @@ formatter = string.Formatter()
 
 
 class Path(str):
+    """
+    Path
+    """
+
     def __new__(cls, path: str, params: typing.Dict) -> str:
         formatted = path.format(**params)
         path = super().__new__(cls, formatted)  # type: ignore
