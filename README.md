@@ -6,15 +6,35 @@ It can make wrapper for RESTful API
 ## Example
 
 ```python
-from apywrapper import Api
+import typing
+from src.apywrapper import Api
+from dataclasses import dataclass
 
-api = Api("https://httpbin.org/bytes")
+app_id = "X" change this
+headers = {"app-id": app_id}
+
+api = Api("https://dummyapi.io/data/api/", headers=headers)
 
 
-@api.get("/{n}")
-def get(n: int):
-    return {"n": 15}
+@dataclass
+class User:
+    id: str
+    title: str
+    firstName: str
+    lastName: str
+    gender: str
+    email: str
+    dateOfBirth: str
+    registerDate: str
+    phone: str
+    picture: str
+    location: typing.Dict
 
 
-a = print(get("Hello").text) # print result
+@api.get("/user/{user_id}")
+def get_user(user_id):
+    return User, {"user_id": user_id}
+
+
+print(get_user("0F8JIqi4zwvb77FGz6Wt")) # dummy user id
 ```
