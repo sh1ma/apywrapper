@@ -1,18 +1,21 @@
 import typing
+from typing import Callable, List, Union, cast, Any
 
 import httpx
 from dacite import from_dict
 
 from .path import Path
 
+T = typing.TypeVar("T")
 
-def make_request(path: str, request_func):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
+
+def make_request(path: str, request_func: Callable) -> Callable[..., Any]:
+    def decorator(func: Callable) -> Callable:
+        def wrapper(*args, **kwargs) -> Union[T, List[T]]:
             entity, params = func(*args, **kwargs)
             path_obj = Path(path, params)
             result = request_func(path_obj, params)
-            return from_dict(data_class=entity, data=result)
+            return cast(Union[T, List[T]], from_dict(data_class=entity, data=result))
 
         return wrapper
 
