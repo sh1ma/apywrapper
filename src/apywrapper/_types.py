@@ -1,10 +1,4 @@
-from typing import (
-    Protocol,
-    Dict,
-    TypeVar,
-)
-
-T = TypeVar("T")
+from typing import Protocol, Dict, TypeVar, Callable
 
 
 class EntityType(Protocol):
@@ -17,3 +11,5 @@ class EntityType(Protocol):
 
 ArgsType = TypeVar("ArgsType")
 KwargsType = TypeVar("KwargsType")
+
+ReturnEntity = Callable[[ArgsType, KwargsType], EntityType]
