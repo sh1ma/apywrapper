@@ -19,12 +19,11 @@ from httpx._types import QueryParamTypes, RequestData
 from dacite import from_dict
 
 from ._path import Path
-from ._types import EntityType, ArgsType, KwargsType
+from ._types import EntityType, ArgsType, KwargsType, ReturnEntity
 
 
 def serialize(entity: Type[EntityType], response: httpx.Response) -> EntityType:
     return from_dict(data_class=entity, data=response.json())
-    # return
 
 
 def make_request_function(
@@ -40,10 +39,8 @@ def make_request_function(
 
 def make_request(
     path_str: str, request_func: Callable[..., httpx.Response]
-) -> Callable[[Callable[..., Any]], Callable[[ArgsType, KwargsType], EntityType]]:
-    def decorator(
-        func: Callable[..., Any]
-    ) -> Callable[[ArgsType, KwargsType], EntityType]:
+) -> Callable[[Callable[..., Any]], ReturnEntity]:
+    def decorator(func: Callable[..., Any]) -> ReturnEntity:
         def wrapper(*args: ArgsType, **kwargs: KwargsType) -> EntityType:
             return make_request_function(func, *args, **kwargs)(path_str, request_func)
 
