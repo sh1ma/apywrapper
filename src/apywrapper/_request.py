@@ -1,28 +1,19 @@
-from types import prepare_class
-import typing
 from typing import (
     Any,
-    AnyStr,
     Callable,
     Dict,
-    Iterator,
-    List,
     Optional,
-    Tuple,
     Type,
-    TypeVar,
-    Union,
 )
 
-import httpx
-from httpx._types import QueryParamTypes, RequestData
+from httpx import Client, Response
 from dacite import from_dict
 
 from ._path import Path
 from ._types import EntityType, ArgsType, KwargsType, ReturnEntity
 
 
-def serialize(entity: Type[EntityType], response: httpx.Response) -> EntityType:
+def serialize(entity: Type[EntityType], response: Response) -> EntityType:
     return from_dict(data_class=entity, data=response.json())
 
 
@@ -38,7 +29,7 @@ def make_request_function(
 
 
 def make_request(
-    path_str: str, request_func: Callable[..., httpx.Response]
+    path_str: str, request_func: Callable[..., Response]
 ) -> Callable[[Callable[..., Any]], ReturnEntity]:
     def decorator(func: Callable[..., Any]) -> ReturnEntity:
         def wrapper(*args: ArgsType, **kwargs: KwargsType) -> EntityType:
@@ -56,7 +47,7 @@ def pick_params(path: Path, params: Optional[Dict]) -> Optional[Dict]:
     return params
 
 
-class HttpClient(httpx.Client):
+class HttpClient(Client):
     """
     HttpClient
     """
