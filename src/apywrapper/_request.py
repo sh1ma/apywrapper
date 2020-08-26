@@ -1,3 +1,4 @@
+from types import prepare_class
 import typing
 from typing import (
     Any,
@@ -14,55 +15,25 @@ from typing import (
 )
 
 import httpx
+from httpx._types import QueryParamTypes, RequestData
 from dacite import from_dict
 
 from ._path import Path
-from ._types import EntityType, HeaderType
-
-ArgsType = TypeVar("ArgsType")
-KwargsType = TypeVar("KwargsType")
-Params = Union[dict, str, bytes, Iterator[bytes]]
-
-# Params = Optional[typing.Dict["str", RequestData]]
+from ._types import EntityType, ArgsType, KwargsType
 
 
-# def make_request(
-#     path: str, request_func: Callable[..., Any]
-# ) -> Callable[[Callable], Callable]:
-#     def decorator(func: Callable) -> Callable:
-#         def wrapper(*args, **kwargs) -> Union[T, List[T]]:
-#             entity, params = func(*args, **kwargs)
-#             path_obj = Path(path, params)
-#             result = request_func(path_obj, params)
-#             return cast(Union[T, List[T]], from_dict(data_class=entity, data=result))
-
-#         return wrapper
-
-#     return decorator
-
-
-# def prepare_request(
-#     path_str: str, func: Callable[..., Any], *args: ArgsType, **kwargs: KwargsType
-# ) -> Tuple[EntityType, Dict[str, Any], Path]:
-#     entity, params = func(*args, *kwargs)
-#     path = Path(path_str, params)
-#     return entity, params, path
-
-# def c(entity: EntityType, response: httpx.):
-
-
-def c(entity: Type[EntityType], response: httpx.Response) -> EntityType:
+def serialize(entity: Type[EntityType], response: httpx.Response) -> EntityType:
     return from_dict(data_class=entity, data=response.json())
     # return
 
 
-def b(
+def make_request_function(
     func: Callable[..., Any], *args: ArgsType, **kwargs: KwargsType
 ) -> Callable[[str, Callable[..., Any]], Any]:
     def wrapper(path_str: str, request_func: Callable[..., Any]):
         entity, params = func(*args, **kwargs)
         path = Path(path_str, params)
-        return c(entity, request_func(path, params))
+        return serialize(entity, request_func(path, params))
 
     return wrapper
 
@@ -74,24 +45,14 @@ def make_request(
         func: Callable[..., Any]
     ) -> Callable[[ArgsType, KwargsType], EntityType]:
         def wrapper(*args: ArgsType, **kwargs: KwargsType) -> EntityType:
-            return b(func, *args, **kwargs)(path_str, request_func)
+            return make_request_function(func, *args, **kwargs)(path_str, request_func)
 
         return wrapper
 
     return decorator
 
 
-# def serialize(entity: Type[EntityType], json: Any) -> EntityType:
-#     return from_dict(data_class=entity, data=json)
-
-
-# def make_request(entity: Type[EntityType], params, path) -> EntityType:
-#     return entity()
-
-
-def pick_params(
-    path: Path, params: Optional[typing.Dict["str", Params]] = None
-) -> Optional[Params]:
+def pick_params(path: Path, params: Optional[Dict]) -> Optional[Dict]:
     if params is None:
         return
     _ = [params.pop(arg) for arg in path.required_args if arg in params]  # type: ignore
@@ -103,33 +64,31 @@ class HttpClient(httpx.Client):
     HttpClient
     """
 
-    def get_request(
-        self, path: Path, params: Optional[typing.Dict["str", Params]] = None
-    ):
-        params = pick_params(path, params)
-        res = self.get(path, params=params)
+    def get_request(self, path: Path, params: Optional[Dict] = None):
+        real_params = pick_params(path, params)
+        res = self.get(path, params=real_params)
         res.raise_for_status()
         return res
 
-    def post_request(self, path: Path, params: typing.Dict):
+    def post_request(self, path: Path, params: Optional[Dict] = None):
         params = pick_params(path, params)
         res = self.post(path, json=params)
         res.raise_for_status()
         return res
 
-    def put_request(self, path: Path, params: typing.Dict):
+    def put_request(self, path: Path, params: Optional[Dict] = None):
         params = pick_params(path, params)
         res = self.put(path, json=params)
         res.raise_for_status()
         return res
 
-    def delete_request(self, path: Path, params: typing.Dict):
+    def delete_request(self, path: Path, params: Optional[Dict] = None):
         params = pick_params(path, params)
         res = self.delete(path, params=params)
         res.raise_for_status()
         return res
 
-    def patch_request(self, path: Path, params: typing.Dict):
+    def patch_request(self, path: Path, params: Optional[Dict] = None):
         params = pick_params(path, params)
         res = self.patch(path, json=params)
         res.raise_for_status()
