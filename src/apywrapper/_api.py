@@ -5,7 +5,7 @@ from ._request import HttpClient, make_request
 
 class Apy(Api):
     """
-    Api
+    Apy class
     """
 
     def __init__(self, host: str, headers: HeaderTypes) -> None:
