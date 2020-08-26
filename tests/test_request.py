@@ -1,5 +1,5 @@
-from src.path import Path
-from src.request import pick_params
+from apywrapper._path import Path
+from apywrapper._request import pick_params
 
 
 def test_pick_params():

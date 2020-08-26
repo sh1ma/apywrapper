@@ -1,4 +1,4 @@
-from src.path import Path
+from apywrapper._path import Path
 
 
 def test_Path():
