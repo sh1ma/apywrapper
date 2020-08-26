@@ -1,6 +1,5 @@
-from typing import Dict, Optional, TypeVar, Callable
+from httpx._types import HeaderTypes
 from ._abc import Api
-from ._types import EntityType
 from ._request import HttpClient, make_request
 
 
@@ -9,7 +8,7 @@ class Apy(Api):
     Api
     """
 
-    def __init__(self, host: str, headers: Dict) -> None:
+    def __init__(self, host: str, headers: HeaderTypes) -> None:
         self.http_client = HttpClient(base_url=host, headers=headers)
 
     def get(self, path: str):
