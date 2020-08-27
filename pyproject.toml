@@ -19,8 +19,6 @@ black = "^19.10b0"
 pylint = "^2.5.3"
 pytest = "^6.0.1"
 
-[tool.poetry.scripts]
-greet = "bin:main"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
