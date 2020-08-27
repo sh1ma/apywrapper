@@ -1,6 +1,6 @@
 ## apywrapper
 
-Easy development of restful api wrapper
+Easy development of RESTful API wrapper
 
 
 ## install
