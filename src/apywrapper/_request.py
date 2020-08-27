@@ -1,26 +1,20 @@
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Optional,
-    Type,
-)
+from typing import Any, Callable, Dict, Optional, Type, Tuple, cast
 
 from httpx import Client, Response
 from dacite import from_dict
 
 from ._path import Path
-from ._types import EntityType, ArgsType, KwargsType, ReturnEntity
+from ._types import EntityType, ReturnEntity, RequestFunc, ApiFunc
 
 
 def serialize(entity: Type[EntityType], response: Response) -> EntityType:
-    return from_dict(data_class=entity, data=response.json())
+    return cast(EntityType, from_dict(data_class=entity, data=response.json()))
 
 
 def make_request_function(
-    func: Callable[..., Any], *args: ArgsType, **kwargs: KwargsType
+    func: ApiFunc, *args: Any, **kwargs: Any
 ) -> Callable[[str, Callable[..., Any]], Any]:
-    def wrapper(path_str: str, request_func: Callable[..., Any]):
+    def wrapper(path_str: str, request_func: RequestFunc) -> EntityType:
         entity, params = func(*args, **kwargs)
         path = Path(path_str, params)
         return serialize(entity, request_func(path, params))
@@ -29,10 +23,10 @@ def make_request_function(
 
 
 def make_request(
-    path_str: str, request_func: Callable[..., Response]
+    path_str: str, request_func: RequestFunc
 ) -> Callable[[Callable[..., Any]], ReturnEntity]:
-    def decorator(func: Callable[..., Any]) -> ReturnEntity:
-        def wrapper(*args: ArgsType, **kwargs: KwargsType) -> EntityType:
+    def decorator(func: ApiFunc) -> ReturnEntity:
+        def wrapper(*args: Any, **kwargs: Any) -> EntityType:
             return make_request_function(func, *args, **kwargs)(path_str, request_func)
 
         return wrapper

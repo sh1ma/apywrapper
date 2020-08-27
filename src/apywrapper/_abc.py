@@ -1,5 +1,5 @@
 from typing import Callable, Any, TypeVar
-from ._types import EntityType
+from ._types import ApiFunc, ReturnEntity
 from abc import ABCMeta
 
 
@@ -12,27 +12,17 @@ class Api(metaclass=ABCMeta):
     ApiMeta
     """
 
-    def get(
-        self, path: str
-    ) -> Callable[[Callable[..., Any]], Callable[[ArgsType, KwargsType], EntityType]]:
+    def get(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
         raise NotImplementedError
 
-    def post(
-        self, path: str
-    ) -> Callable[[Callable[..., Any]], Callable[[ArgsType, KwargsType], EntityType]]:
+    def post(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
         raise NotImplementedError
 
-    def put(
-        self, path: str
-    ) -> Callable[[Callable[..., Any]], Callable[[ArgsType, KwargsType], EntityType]]:
+    def put(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
         raise NotImplementedError
 
-    def delete(
-        self, path: str
-    ) -> Callable[[Callable[..., Any]], Callable[[ArgsType, KwargsType], EntityType]]:
+    def delete(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
         raise NotImplementedError
 
-    def patch(
-        self, path: str
-    ) -> Callable[[Callable[..., Any]], Callable[[ArgsType, KwargsType], EntityType]]:
+    def patch(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
         raise NotImplementedError

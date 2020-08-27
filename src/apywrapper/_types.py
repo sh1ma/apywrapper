@@ -1,4 +1,6 @@
-from typing import Protocol, Dict, TypeVar, Callable
+from httpx import Response
+from httpx._types import PrimitiveData
+from typing import Protocol, Dict, TypeVar, Callable, Tuple, Type
 
 
 class EntityType(Protocol):
@@ -9,7 +11,6 @@ class EntityType(Protocol):
     __dataclass_fields__: Dict
 
 
-ArgsType = TypeVar("ArgsType")
-KwargsType = TypeVar("KwargsType")
-
-ReturnEntity = Callable[[ArgsType, KwargsType], EntityType]
+ReturnEntity = Callable[..., EntityType]
+RequestFunc = Callable[..., Response]
+ApiFunc = Callable[..., Tuple[Type[EntityType], Dict]]
