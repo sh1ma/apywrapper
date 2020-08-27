@@ -29,4 +29,9 @@ def get_room(room_id: int):
     )  # Return Object, Request Params(Path Args, Query or JsonData(Dict))
 
 
+@api.get("/rooms")
+def get_rooms():
+    return Room, {}
+
+
 print(get_room(183377745))  # return Room Object
