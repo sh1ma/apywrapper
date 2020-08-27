@@ -1,6 +1,6 @@
 ## apywrapper
 
-Library that can wrap __only__ RESTful API
+Easy development of restful api wrapper
 
 
 ## install
@@ -52,7 +52,24 @@ def get_rooms():
     return Room, {}
 
 
-print(get_room(183377745))  # return Room
+print(get_room(113377551))  # return Room
 print(get_rooms()) # return List[Room]
 
 ```
+
+## Example (POST data)
+```python
+@api.post("/users")
+def create_user(username: str, user_id: str):
+    return User, {"user_name": username, "user_id": user_id}
+
+created_user = create_user("sh1ma", "sh1ma")
+```
+
+## Example (GET with `is_hello` query)
+```python
+@api.get("/users/{user_id}")
+def get_user(user_id: str, is_hello: bool):
+    return User, {"user_id": user_id, "only_name": True}
+```
+
