@@ -1,10 +1,7 @@
-from typing import Callable, Any, TypeVar
-from ._types import ApiFunc, ReturnEntity
 from abc import ABCMeta
+from typing import Callable
 
-
-ArgsType = TypeVar("ArgsType")
-KwargsType = TypeVar("KwargsType")
+from ._types import ApiFunc, ReturnEntity
 
 
 class Api(metaclass=ABCMeta):

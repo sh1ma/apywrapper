@@ -1,6 +1,6 @@
+from typing import Callable, Dict, Protocol, Tuple, Type
+
 from httpx import Response
-from httpx._types import PrimitiveData
-from typing import Protocol, Dict, TypeVar, Callable, Tuple, Type
 
 
 class EntityType(Protocol):

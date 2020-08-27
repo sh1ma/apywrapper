@@ -1,10 +1,10 @@
-from typing import Any, Callable, Dict, Optional, Type, Tuple, cast
+from typing import Any, Callable, Dict, Optional, Type, cast
 
-from httpx import Client, Response
 from dacite import from_dict
+from httpx import Client, Response
 
 from ._path import Path
-from ._types import EntityType, ReturnEntity, RequestFunc, ApiFunc
+from ._types import ApiFunc, EntityType, RequestFunc, ReturnEntity
 
 
 def serialize(entity: Type[EntityType], response: Response) -> EntityType:
