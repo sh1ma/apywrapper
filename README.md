@@ -70,6 +70,6 @@ created_user = create_user("sh1ma", "sh1ma")
 ```python
 @api.get("/users/{user_id}")
 def get_user(user_id: str, is_hello: bool):
-    return User, {"user_id": user_id, "only_name": True}
+    return User, {"user_id": user_id, "is_hello": True}
 ```
 
