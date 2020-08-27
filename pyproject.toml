@@ -12,7 +12,6 @@ packages = [
 python = "^3.8"
 httpx = "^0.14.1"
 dacite = "^1.5.1"
-cleo = "^0.8.1"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
