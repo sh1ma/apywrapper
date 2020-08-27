@@ -3,6 +3,13 @@
 Library that can wrap __only__ RESTful API
 
 
+## install
+
+```
+pip install apywrapper
+```
+
+
 ## Example (Chatwork API Wrapper)
 
 ```python
