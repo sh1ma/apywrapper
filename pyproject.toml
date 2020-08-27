@@ -8,6 +8,14 @@ packages = [
     { include = "apywrapper", from = "src" },
 ]
 readme = "README.md"
+homepage = "https://github.com/sh1ma/apywrapper"
+repository = "https://github.com/sh1ma/apywrapper"
+keywords = ["web", "restful", "api", "wrapper", "apywrapper"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment"
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.8"
