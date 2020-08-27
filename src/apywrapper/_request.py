@@ -1,7 +1,7 @@
 from typing import Any, Callable, Dict, List, Optional, Type, Union, cast
 
 from dacite import from_dict
-from httpx import Client, Response
+from httpx import Client
 
 from ._path import Path
 from ._types import ApiFunc, EntityType, RequestFunc, ReturnEntity
