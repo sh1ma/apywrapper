@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, Optional, Type, cast
+from typing import Any, Callable, Dict, List, Optional, Type, Union, cast
 
 from dacite import from_dict
 from httpx import Client, Response
@@ -7,17 +7,24 @@ from ._path import Path
 from ._types import ApiFunc, EntityType, RequestFunc, ReturnEntity
 
 
-def serialize(entity: Type[EntityType], response: Response) -> EntityType:
-    return cast(EntityType, from_dict(data_class=entity, data=response.json()))
+def serialize(
+    entity: Type[EntityType], json: Union[List, Dict]
+) -> Union[List[EntityType], EntityType]:
+    if isinstance(json, list):
+        return [cast(EntityType, from_dict(data_class=entity, data=d)) for d in json]
+
+    return cast(EntityType, from_dict(data_class=entity, data=json))
 
 
 def make_request_function(
     func: ApiFunc, *args: Any, **kwargs: Any
 ) -> Callable[[str, Callable[..., Any]], Any]:
-    def wrapper(path_str: str, request_func: RequestFunc) -> EntityType:
+    def wrapper(
+        path_str: str, request_func: RequestFunc
+    ) -> Union[List[EntityType], EntityType]:
         entity, params = func(*args, **kwargs)
         path = Path(path_str, params)
-        return serialize(entity, request_func(path, params))
+        return serialize(entity, request_func(path, params).json())
 
     return wrapper
 
@@ -26,7 +33,7 @@ def make_request(
     path_str: str, request_func: RequestFunc
 ) -> Callable[[Callable[..., Any]], ReturnEntity]:
     def decorator(func: ApiFunc) -> ReturnEntity:
-        def wrapper(*args: Any, **kwargs: Any) -> EntityType:
+        def wrapper(*args: Any, **kwargs: Any) -> Union[List[EntityType], EntityType]:
             return make_request_function(func, *args, **kwargs)(path_str, request_func)
 
         return wrapper
