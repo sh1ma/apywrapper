@@ -30,4 +30,3 @@ def get_room(room_id: int):
 
 
 print(get_room(183377745))  # return Room Object
-
