@@ -7,6 +7,7 @@ authors = ["sh1ma <in9lude@gmail.com>"]
 packages = [
     { include = "apywrapper", from = "src" },
 ]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
