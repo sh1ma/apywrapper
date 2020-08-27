@@ -1,40 +1,51 @@
 ## apywrapper
 
-It can make wrapper for RESTful API
+Library that can wrap __only__ RESTful API
 
 
-## Example
+## Example (Chatwork API Wrapper)
 
 ```python
-import typing
-from src.apywrapper import Api
+from apywrapper import Apy
 from dataclasses import dataclass
 
-app_id = "X" change this
-headers = {"app-id": app_id}
-
-api = Api("https://dummyapi.io/data/api/", headers=headers)
+api = Apy(
+    "https://api.chatwork.com/v2",
+    headers={"X-ChatWorkToken": "xxxxxxxxx"},
+)
 
 
 @dataclass
-class User:
-    id: str
-    title: str
-    firstName: str
-    lastName: str
-    gender: str
-    email: str
-    dateOfBirth: str
-    registerDate: str
-    phone: str
-    picture: str
-    location: typing.Dict
+class Room:
+    room_id: int
+    name: str
+    type: str
+    role: str
+    sticky: bool
+    unread_num: int
+    mention_num: int
+    mytask_num: int
+    message_num: int
+    file_num: int
+    task_num: int
+    icon_path: str
+    last_update_time: int
 
 
-@api.get("/user/{user_id}")
-def get_user(user_id):
-    return User, {"user_id": user_id}
+@api.get("/rooms/{room_id}")
+def get_room(room_id: int):
+    return (
+        Room,
+        {"room_id": room_id},
+    )  # Return Object, Request Params(Path Args, Query or JsonData(Dict))
 
 
-print(get_user("0F8JIqi4zwvb77FGz6Wt")) # dummy user id
+@api.get("/rooms")
+def get_rooms():
+    return Room, {}
+
+
+print(get_room(183377745))  # return Room
+print(get_rooms()) # return List[Room]
+
 ```
