@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Protocol, Tuple, Type, Union, List
+from typing import Callable, Dict, Protocol, Tuple, Type, Union, List, Optional
 
 from httpx import Response
 
@@ -11,6 +11,7 @@ class EntityType(Protocol):
     __dataclass_fields__: Dict
 
 
-ReturnEntity = Callable[..., Union[List[EntityType], EntityType]]
+Entity = Optional[Union[List[EntityType], EntityType]]
+ReturnEntity = Callable[..., Entity]
 RequestFunc = Callable[..., Response]
 ApiFunc = Callable[..., Tuple[Type[EntityType], Dict]]
