@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "apywrapper"
-version = "0.1.1"
+version = "0.1.2"
 description = "make wrapper for RESTful API"
 license = "GPL-3.0-or-later"
 authors = ["sh1ma <in9lude@gmail.com>"]
