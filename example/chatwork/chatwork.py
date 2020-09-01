@@ -1,7 +1,5 @@
-from apywrapper import Apy
+from apywrapper import Apy, get
 from dataclasses import dataclass
-
-api = Apy("https://api.chatwork.com/v2", headers={"X-ChatWorkToken": "xxxx"})
 
 
 @dataclass
@@ -21,17 +19,23 @@ class Room:
     last_update_time: int
 
 
-@api.get("/rooms/{room_id}")
-def get_room(room_id: int):
-    return (
-        Room,
-        {"room_id": room_id},
-    )  # Return Object, Request Params(Path Args, Query or JsonData(Dict))
+class Chatwork(Apy):
+    def __init__(self, token):
+        super().__init__(
+            host="https://api.chatwork.com/v2", headers={"X-ChatWorkToken": token}
+        )
+
+    @get("/rooms/{room_id}")
+    def get_room(self, room_id: int):
+        return (
+            Room,
+            {"room_id": room_id},
+        )  # Return Object, Request Params(Path Args, Query or JsonData(Dict))
+
+    @get("/rooms")
+    def get_rooms(self):
+        return Room, {}
 
 
-@api.get("/rooms")
-def get_rooms():
-    return Room, {}
-
-
-print(get_room(1111111))  # return Room Object
+api = Chatwork(token="xxxxx")
+print(api.get_rooms())
