@@ -6,8 +6,10 @@ from ._request import HttpClient, make_request
 
 def get(path):
     def _get(func):
-        def wrapper(self, *args):
-            return make_request(path, self.http_client.get_request)(func)(self, *args)
+        def wrapper(self, *args, **kwargs):
+            return make_request(path, self.http_client.get_request)(func)(
+                self, *args, **kwargs
+            )
 
         return wrapper
 
@@ -16,8 +18,10 @@ def get(path):
 
 def post(path):
     def _post(func):
-        def wrapper(self, *args):
-            return make_request(path, self.http_client.post_request)(func)(self, *args)
+        def wrapper(self, *args, **kwargs):
+            return make_request(path, self.http_client.post_request)(func)(
+                self, *args, **kwargs
+            )
 
         return wrapper
 
@@ -26,7 +30,7 @@ def post(path):
 
 def put(path):
     def _put(func):
-        def wrapper(self, *args):
+        def wrapper(self, *args, **kwargs):
             return make_request(path, self.http_client.put_request)(func)(self, *args)
 
         return wrapper
@@ -36,9 +40,9 @@ def put(path):
 
 def delete(path):
     def _delete(func):
-        def wrapper(self, *args):
+        def wrapper(self, *args, **kwargs):
             return make_request(path, self.http_client.delete_request)(func)(
-                self, *args
+                self, *args, **kwargs
             )
 
         return wrapper
@@ -48,8 +52,10 @@ def delete(path):
 
 def patch(path):
     def _patch(func):
-        def wrapper(self, *args):
-            return make_request(path, self.http_client.patch_request)(func)(self, *args)
+        def wrapper(self, *args, **kwargs):
+            return make_request(path, self.http_client.patch_request)(func)(
+                self, *args, **kwargs
+            )
 
         return wrapper
 
