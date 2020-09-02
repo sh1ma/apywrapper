@@ -23,7 +23,9 @@ def make_request_function(
         entity, params = func(*args, **kwargs)
         path = Path(path_str, params)
         response = request_func(path, params)
-        if response.status_code == 204:
+        if (
+            entity is None or response.status_code == 204
+        ):  # entity is None response body is None
             return
         return serialize(entity, response.json())
 
