@@ -64,34 +64,17 @@ class Apy(Api):
     def __init__(self, host: str, headers: HeaderTypes) -> None:
         self.http_client = HttpClient(base_url=host, headers=headers)
 
-    def get(self, path: str, request_func=None):
-        request_func = (
-            request_func if request_func is not None else self.http_client.get_request
-        )
-        return make_request(path, request_func)
+    def get(self, path: str):
+        return make_request(path, self.http_client.get_request)
 
-    def post(self, path: str, request_func=None):
-        request_func = (
-            request_func if request_func is not None else self.http_client.post_request
-        )
-        return make_request(path, request_func)
+    def post(self, path: str):
+        return make_request(path, self.http_client.post_request)
 
-    def put(self, path: str, request_func=None):
-        request_func = (
-            request_func if request_func is not None else self.http_client.put_request
-        )
-        return make_request(path, request_func)
+    def put(self, path: str):
+        return make_request(path, self.http_client.put_request)
 
-    def delete(self, path: str, request_func=None):
-        request_func = (
-            request_func
-            if request_func is not None
-            else self.http_client.delete_request
-        )
-        return make_request(path, request_func)
+    def delete(self, path: str):
+        return make_request(path, self.http_client.delete_request)
 
-    def patch(self, path: str, request_func=None):
-        request_func = (
-            request_func if request_func is not None else self.http_client.patch_request
-        )
-        return make_request(path, request_func)
+    def patch(self, path: str):
+        return make_request(path, self.http_client.patch_request)
