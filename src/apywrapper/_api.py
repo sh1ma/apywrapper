@@ -31,7 +31,9 @@ def post(path):
 def put(path):
     def _put(func):
         def wrapper(self, *args, **kwargs):
-            return make_request(path, self.http_client.put_request)(func)(self, *args)
+            return make_request(path, self.http_client.put_request)(func)(
+                self, *args, **kwargs
+            )
 
         return wrapper
 
