@@ -1,5 +1,7 @@
 ## apywrapper
 
+![checks](https://github.com/sh1ma/apywrapper/workflows/checks/badge.svg)
+
 Easy development of RESTful API wrapper
 
 
