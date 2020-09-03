@@ -1,4 +1,9 @@
-from typing import Callable, Dict, Protocol, Tuple, Type, Union, List, Optional
+"""
+_types.py
+"""
+
+
+from typing import Callable, Dict, List, Optional, Protocol, Tuple, Type, Union
 
 from httpx import Response
 

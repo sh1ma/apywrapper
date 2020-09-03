@@ -1,3 +1,7 @@
+"""
+_path.py
+"""
+
 import string
 from typing import Dict
 

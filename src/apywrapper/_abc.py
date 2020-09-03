@@ -1,3 +1,7 @@
+"""
+_abc.py
+"""
+
 from abc import ABCMeta
 from typing import Callable
 
