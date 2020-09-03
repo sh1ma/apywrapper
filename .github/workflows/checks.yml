@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
         poetry export -f --dev requirements.txt > requirements.txt
-        pip install -r requirements.txt
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with pylint
       run: |
         pylint **/*.py
