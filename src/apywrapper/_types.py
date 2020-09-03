@@ -9,6 +9,7 @@ from httpx import Response
 
 
 class EntityType(Protocol):
+    # pylint: disable=too-few-public-methods
     """
     Entity Object Type
     """
