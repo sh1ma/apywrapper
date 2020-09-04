@@ -2,6 +2,7 @@
 _request.py
 """
 
+from inspect import signature
 from typing import Any, Callable, Dict, List, Optional, Type, Union, cast
 
 from dacite import from_dict
@@ -9,10 +10,11 @@ from httpx import Client, Response
 
 from ._path import Path
 from ._types import ApiFunc, Entity, EntityType, RequestFunc, ReturnEntity
+from ._utils import get_returntype_from_annotation
 
 
 def serialize(
-    entity: Type[EntityType], json: Union[List, Dict]
+    entity: Union[Type[List[EntityType]], Type[EntityType]], json: Union[List, Dict]
 ) -> Union[List[EntityType], EntityType]:
     if isinstance(json, list):
         return [cast(EntityType, from_dict(data_class=entity, data=d)) for d in json]
@@ -24,7 +26,8 @@ def make_request_function(
     func: ApiFunc, *args: Any, **kwargs: Any
 ) -> Callable[[str, Callable[..., Response]], Optional[Entity]]:
     def wrapper(path_str: str, request_func: RequestFunc) -> Optional[Entity]:
-        entity, params = func(*args, **kwargs)
+        entity = get_returntype_from_annotation(func)
+        params = func(*args, **kwargs)
         path = Path(path_str, params)
         response = request_func(path, params)
         if (
