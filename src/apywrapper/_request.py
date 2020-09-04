@@ -22,14 +22,14 @@ def serialize(
 
 def make_request_function(
     func: ApiFunc, *args: Any, **kwargs: Any
-) -> Callable[[str, Callable[..., Response]], Entity]:
-    def wrapper(path_str: str, request_func: RequestFunc) -> Entity:
+) -> Callable[[str, Callable[..., Response]], Optional[Entity]]:
+    def wrapper(path_str: str, request_func: RequestFunc) -> Optional[Entity]:
         entity, params = func(*args, **kwargs)
         path = Path(path_str, params)
         response = request_func(path, params)
         if (
             entity is None or response.status_code == 204
-        ):  # entity is None response body is None
+        ):  # entity is None or response body is None
             return
         return serialize(entity, response.json())
 
