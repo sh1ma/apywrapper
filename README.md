@@ -1,6 +1,6 @@
 ## apywrapper
 
-![checks](https://github.com/sh1ma/apywrapper/workflows/checks/badge.svg)
+![lint](https://github.com/sh1ma/apywrapper/workflows/lint/badge.svg?branch=develop)
 
 Easy development of RESTful API wrapper
 
