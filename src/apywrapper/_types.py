@@ -3,12 +3,13 @@ _types.py
 """
 
 
-from typing import Callable, Dict, List, Optional, Protocol, Tuple, Type, Union
+from typing import Callable, Dict, List, Optional, Protocol, Union
 
 from httpx import Response
 
 
 class EntityType(Protocol):
+    # pylint: disable=too-few-public-methods
     """
     Entity Object Type
     """
@@ -19,4 +20,4 @@ class EntityType(Protocol):
 Entity = Optional[Union[List[EntityType], EntityType]]
 ReturnEntity = Callable[..., Entity]
 RequestFunc = Callable[..., Response]
-ApiFunc = Callable[..., Tuple[Type[EntityType], Dict]]
+ApiFunc = Callable[..., Dict]

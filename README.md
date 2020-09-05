@@ -1,5 +1,7 @@
 ## apywrapper
 
+![lint](https://github.com/sh1ma/apywrapper/workflows/lint/badge.svg?branch=develop)
+
 Easy development of RESTful API wrapper
 
 

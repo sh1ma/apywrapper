@@ -1,3 +1,8 @@
-from ._api import Apy, get, post, put, delete, patch
+"""
+__init__.py
+"""
 
-__all__ = ["Apy", "get", "post", "put", "delete", "patch"]
+
+from ._api import Apy, delete, get, patch, post, put
+
+__all__ = ["Apy", "delete", "get", "patch", "post", "put"]
