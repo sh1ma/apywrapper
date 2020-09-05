@@ -31,5 +31,6 @@ jobs:
     - name: Check formatting with black
       run: |
         black --check **/*.py
-    - nmae: Check typing with mypy
+    - name: Check typing with mypy
+      run: |
         mypy
