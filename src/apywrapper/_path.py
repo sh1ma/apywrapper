@@ -13,7 +13,7 @@ class Path(str):
     Path
     """
 
-    def __new__(cls, path: str, params: Dict) -> str:
+    def __new__(cls, path: str, params: Dict) -> str:  # type: ignore
         formatted = path.format(**params)
         path = super().__new__(cls, formatted)  # type: ignore
         return path
