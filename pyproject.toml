@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "apywrapper"
-version = "0.1.6"
+version = "0.1.7"
 description = "make wrapper for RESTful API"
 license = "GPL-3.0-or-later"
 authors = ["sh1ma <in9lude@gmail.com>"]
@@ -15,6 +15,12 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Web Environment"
 ]
+
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
 
 
 [tool.poetry.dependencies]
