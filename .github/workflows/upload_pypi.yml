@@ -23,5 +23,5 @@ jobs:
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
       run: |
-        poetry config http-basic.pypi "__token__" "${POETRY_PYPI_TOKEN_PYPI}"
+        source $HOME/.poetry/env 
         poetry publish --build
