@@ -18,5 +18,6 @@ def get_returntype_from_annotation(func: ApiFunc) -> Optional[Type[EntityType]]:
 def resolve_returntype(tp: Any) -> Type[EntityType]:
     if (tp_origin := get_origin(tp)) is not None:
         if tp_origin is not list:
-            return get_origin(tp)
-        return cast(Type[EntityType], resolve_returntype(get_args(tp)[0]))
+            return cast(Type[EntityType], get_origin(tp))
+        return resolve_returntype(get_args(tp)[0])
+    return cast(Type[EntityType], tp)
