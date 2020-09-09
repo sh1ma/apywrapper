@@ -15,10 +15,14 @@ def test_get_returntype_from_annotation():
     def test3() -> None:
         pass
 
-    def test4() -> List[List[Union[str, int]]]:
+    def test4() -> List[Union[str, int]]:
+        pass
+
+    def test5() -> str:
         pass
 
     assert get_returntype_from_annotation(test1) is str
     assert get_returntype_from_annotation(test2) is dict
     assert get_returntype_from_annotation(test3) is None
     assert get_returntype_from_annotation(test4) is Union
+    assert get_returntype_from_annotation(test5) is str
