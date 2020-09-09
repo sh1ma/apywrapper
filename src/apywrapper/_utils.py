@@ -3,7 +3,7 @@ _utils.py
 """
 
 from inspect import signature
-from typing import Optional, Type, cast
+from typing import Any, Optional, Type, cast, get_args, get_origin
 
 from ._types import ApiFunc, EntityType
 
@@ -12,8 +12,12 @@ def get_returntype_from_annotation(func: ApiFunc) -> Optional[Type[EntityType]]:
     return_annotation = signature(func).return_annotation
     if return_annotation is None:
         return None
-    if hasattr(return_annotation, "__origin__"):
-        if return_annotation.__origin__ is not list:
-            raise Exception(f"return type must be Entity, not {return_annotation}")
-        return cast(Type[EntityType], return_annotation.__args__[0])
-    return cast(Type[EntityType], return_annotation)
+    return resolve_returntype(return_annotation)
+
+
+def resolve_returntype(tp: Any) -> Type[EntityType]:
+    if (tp_origin := get_origin(tp)) is not None:
+        if tp_origin is not list:
+            return cast(Type[EntityType], get_origin(tp))
+        return resolve_returntype(get_args(tp)[0])
+    return cast(Type[EntityType], tp)
