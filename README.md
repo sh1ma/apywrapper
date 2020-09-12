@@ -1,3 +1,5 @@
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giomjylcsuj30zk0hsq32.jpg" alt="apywrapper" style="zoom:80%;" />
+
 ## apywrapper
 
 ![lint](https://github.com/sh1ma/apywrapper/workflows/lint/badge.svg?branch=develop)
