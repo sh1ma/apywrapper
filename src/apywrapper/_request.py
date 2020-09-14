@@ -13,6 +13,7 @@ from ._types import (
     ApiFunc,
     Entity,
     EntityType,
+    HookFunc,
     RequestFunc,
     ReturnEntity,
     SerializeFunc,
@@ -31,12 +32,15 @@ def serialize(
 
 def make_request_function(
     func: ApiFunc, *args: Any, **kwargs: Any
-) -> Callable[[str, RequestFunc, Optional[SerializeFunc]], Entity]:
+) -> Callable[
+    [str, RequestFunc, Optional[HookFunc], Optional[SerializeFunc]], Union[Entity, Any]
+]:
     def wrapper(
         path_str: str,
         request_func: RequestFunc,
+        hook_func: Optional[HookFunc] = None,
         serialize_func: Optional[SerializeFunc] = None,
-    ) -> Entity:
+    ) -> Union[Entity, Any]:
         entity = get_returntype_from_annotation(func)
         params = func(*args, **kwargs)
         path = Path(path_str, params)
@@ -45,8 +49,10 @@ def make_request_function(
             entity is None or response.status_code == 204
         ):  # entity is None or response body is None
             return None
-        if serialize_func:
-            return serialize_func(entity, response.json())
+        if hook_func:
+            return hook_func(entity, response)
+        elif serialize_func:
+            return serialize(entity, response.json())
         return serialize(entity, response.json())
 
     return wrapper
@@ -55,12 +61,13 @@ def make_request_function(
 def make_request(
     path_str: str,
     request_func: RequestFunc,
+    hook_func: Optional[HookFunc] = None,
     serialize_func: Optional[SerializeFunc] = None,
 ) -> Callable[[ApiFunc], ReturnEntity]:
     def decorator(func: ApiFunc) -> ReturnEntity:
         def wrapper(*args: Any, **kwargs: Any) -> Entity:
             return make_request_function(func, *args, **kwargs)(
-                path_str, request_func, serialize_func
+                path_str, request_func, hook_func, serialize_func
             )
 
         return wrapper
