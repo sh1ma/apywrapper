@@ -52,7 +52,9 @@ def make_request_function(
         if hook_func:
             return hook_func(entity, response)
         elif serialize_func:
+            response.raise_for_status()
             return serialize(entity, response.json())
+        response.raise_for_status()
         return serialize(entity, response.json())
 
     return wrapper
@@ -90,29 +92,24 @@ class HttpClient(Client):
     def get_request(self, path: Path, params: Optional[Dict] = None) -> Response:
         real_params = pick_params(path, params)
         res = self.get(path, params=real_params)
-        res.raise_for_status()
         return res
 
     def post_request(self, path: Path, params: Optional[Dict] = None) -> Response:
         params = pick_params(path, params)
         res = self.post(path, json=params)
-        res.raise_for_status()
         return res
 
     def put_request(self, path: Path, params: Optional[Dict] = None) -> Response:
         params = pick_params(path, params)
         res = self.put(path, json=params)
-        res.raise_for_status()
         return res
 
     def delete_request(self, path: Path, params: Optional[Dict] = None) -> Response:
         params = pick_params(path, params)
         res = self.delete(path, params=params)
-        res.raise_for_status()
         return res
 
     def patch_request(self, path: Path, params: Optional[Dict] = None) -> Response:
         params = pick_params(path, params)
         res = self.patch(path, json=params)
-        res.raise_for_status()
         return res
