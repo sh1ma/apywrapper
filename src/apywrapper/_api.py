@@ -45,7 +45,7 @@ def get(path: str) -> Callable[[ApiFunc], ReturnEntity]:
     def _get(func: ApiFunc) -> ReturnEntity:
         def wrapper(self: Apy, *args: Any, **kwargs: Any) -> Entity:
             return make_request_function(func, self, *args, **kwargs)(
-                path, self.http_client.get_request
+                path, self.http_client.get_request, self.serialize_func
             )
 
         return wrapper
@@ -57,7 +57,7 @@ def post(path: str) -> Callable[[ApiFunc], ReturnEntity]:
     def _post(func: ApiFunc) -> ReturnEntity:
         def wrapper(self: Apy, *args: Any, **kwargs: Any) -> Entity:
             return make_request_function(func, self, *args, **kwargs)(
-                path, self.http_client.post_request
+                path, self.http_client.post_request, self.serialize_func
             )
 
         return wrapper
@@ -69,7 +69,7 @@ def put(path: str) -> Callable[[ApiFunc], ReturnEntity]:
     def _put(func: ApiFunc) -> ReturnEntity:
         def wrapper(self: Apy, *args: Any, **kwargs: Any) -> Entity:
             return make_request_function(func, self, *args, **kwargs)(
-                path, self.http_client.put_request
+                path, self.http_client.put_request, self.serialize_func
             )
 
         return wrapper
@@ -81,7 +81,7 @@ def delete(path: str) -> Callable[[ApiFunc], ReturnEntity]:
     def _delete(func: ApiFunc) -> ReturnEntity:
         def wrapper(self: Apy, *args: Any, **kwargs: Any) -> Entity:
             return make_request_function(func, self, *args, **kwargs)(
-                path, self.http_client.delete_request
+                path, self.http_client.delete_request, self.serialize_func
             )
 
         return wrapper
@@ -93,7 +93,7 @@ def patch(path: str) -> Callable[[ApiFunc], ReturnEntity]:
     def _patch(func: ApiFunc) -> ReturnEntity:
         def wrapper(self: Apy, *args: Any, **kwargs: Any) -> Entity:
             return make_request_function(func, self, *args, **kwargs)(
-                path, self.http_client.patch_request
+                path, self.http_client.patch_request, self.serialize_func
             )
 
         return wrapper
