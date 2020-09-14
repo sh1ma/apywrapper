@@ -3,7 +3,7 @@ _types.py
 """
 
 
-from typing import Callable, Dict, List, Optional, Protocol, Union
+from typing import Callable, Dict, List, Optional, Protocol, Type, Union
 
 from httpx import Response
 
@@ -32,3 +32,6 @@ Entity = Optional[Union[List[EntityType], EntityType]]
 ReturnEntity = Callable[..., Entity]
 RequestFunc = Callable[..., Response]
 ApiFunc = Callable[..., Dict]
+SerializeFunc = Callable[
+    [Type[EntityType], Union[Dict, List]], Union[List[EntityType], EntityType],
+]

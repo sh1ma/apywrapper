@@ -2,13 +2,13 @@
 _api.py
 """
 
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from httpx._types import HeaderTypes
 
 from ._abc import Api
 from ._request import HttpClient, make_request, make_request_function
-from ._types import ApiFunc, Entity, ReturnEntity
+from ._types import ApiFunc, Entity, ReturnEntity, SerializeFunc
 
 
 class Apy(Api):
@@ -16,23 +16,29 @@ class Apy(Api):
     Apy class
     """
 
-    def __init__(self, host: str, headers: HeaderTypes) -> None:
+    def __init__(
+        self,
+        host: str,
+        headers: HeaderTypes,
+        serialize_func: Optional[SerializeFunc] = None,
+    ) -> None:
+        self.serialize_func = serialize_func if serialize_func else None
         self.http_client = HttpClient(base_url=host, headers=headers)
 
     def get(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
-        return make_request(path, self.http_client.get_request)
+        return make_request(path, self.http_client.get_request, self.serialize_func)
 
     def post(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
-        return make_request(path, self.http_client.post_request)
+        return make_request(path, self.http_client.post_request, self.serialize_func)
 
     def put(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
-        return make_request(path, self.http_client.put_request)
+        return make_request(path, self.http_client.put_request, self.serialize_func)
 
     def delete(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
-        return make_request(path, self.http_client.delete_request)
+        return make_request(path, self.http_client.delete_request, self.serialize_func)
 
     def patch(self, path: str) -> Callable[[ApiFunc], ReturnEntity]:
-        return make_request(path, self.http_client.patch_request)
+        return make_request(path, self.http_client.patch_request, self.serialize_func)
 
 
 def get(path: str) -> Callable[[ApiFunc], ReturnEntity]:
