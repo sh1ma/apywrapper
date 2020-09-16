@@ -53,7 +53,7 @@ def make_request_function(
             return hook_func(entity, response)
         elif serialize_func:
             response.raise_for_status()
-            return serialize(entity, response.json())
+            return serialize_func(entity, response.json())
         response.raise_for_status()
         return serialize(entity, response.json())
 
