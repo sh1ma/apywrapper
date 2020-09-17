@@ -8,15 +8,6 @@ from typing import Any, Callable, Dict, List, Optional, Protocol, Type, Union
 from httpx import Response
 
 
-class DataclassEntityType(Protocol):
-    # pylint: disable=too-few-public-methods
-    """
-    Entity Object Type on dataclass
-    """
-
-    __dataclass_fields__: Dict
-
-
 class PydanticEntityType(Protocol):
     """
     Entity Object Type on Pydantic
@@ -25,7 +16,7 @@ class PydanticEntityType(Protocol):
     __fields__: Dict
 
 
-EntityType = Union[DataclassEntityType, PydanticEntityType]
+EntityType = PydanticEntityType
 
 
 Entity = Optional[Union[List[EntityType], EntityType]]

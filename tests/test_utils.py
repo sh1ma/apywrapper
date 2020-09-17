@@ -21,8 +21,8 @@ def test_get_returntype_from_annotation():
     def test5() -> str:
         pass
 
-    assert get_returntype_from_annotation(test1) is str
-    assert get_returntype_from_annotation(test2) is dict
+    assert get_returntype_from_annotation(test1) is List[str]
+    assert get_returntype_from_annotation(test2) is Dict[str, str]
     assert get_returntype_from_annotation(test3) is None
-    assert get_returntype_from_annotation(test4) is Union
+    assert get_returntype_from_annotation(test4) is List[Union[str, int]]
     assert get_returntype_from_annotation(test5) is str
