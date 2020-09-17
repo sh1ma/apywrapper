@@ -45,12 +45,12 @@ def make_request_function(
         params = func(*args, **kwargs)
         path = Path(path_str, params)
         response = request_func(path, params)
-        if (
+        if hook_func:
+            return hook_func(entity, response)
+        elif (
             entity is None or response.status_code == 204
         ):  # entity is None or response body is None
             return None
-        if hook_func:
-            return hook_func(entity, response)
         elif serialize_func:
             response.raise_for_status()
             return serialize_func(entity, response.json())
